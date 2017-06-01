@@ -30,6 +30,7 @@ module.exports = function SParse(stream) {
   }
 
   // if anything is left to parse, it's a syntax error
+  parser.until(not_whitespace_or_end);
   if (parser.peek() != "") {
     return parser.error(
       "Superfluous characters after expression: `" + parser.peek() + "`"
@@ -184,19 +185,24 @@ function quoted() {
 }
 
 function expr() {
-  // ignore whitespace
-  this.until(not_whitespace_or_end);
+  var pwc = this.until(not_whitespace_or_end).includes(" ") ? " " : "";
 
   if (quotes.test(this.peek())) {
     return this.quoted();
   }
 
-  var expr = this.peek() == "(" ? this.list() : this.atom();
+  var isAtom = false;
+  var expr;
+  if (this.peek() == "(") {
+    expr = this.list();
+  } else {
+    expr = this.atom();
+    isAtom = true;
+  }
 
-  // ignore whitespace
-  this.until(not_whitespace_or_end);
+  var wc = isAtom && this.until(not_whitespace_or_end).includes(" ") ? " " : "";
 
-  return expr;
+  return isAtom && !(expr instanceof String) ? pwc + expr + wc : expr;
 }
 
 function list() {
