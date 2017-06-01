@@ -1,6 +1,6 @@
 {
   "name": "s-expression",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "s-expression parser with (un|quasi|)quoting support",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,8 @@
   },
   "contributors": [
     {"name": "Matt Brennan", "email": "mattyb1000@gmail.com"},
-    {"name": "An", "email": "an@cyan.io"}
+    {"name": "An", "email": "an@cyan.io"},
+    {"name": "Vishnu", "email": "vishnu@nebulalearning.com"}
   ],
   "license": "MIT"
 }
